@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CatSimpleVer.IService\CatSimpleVer.IService.csproj" />
+    <ProjectReference Include="..\CatSimpleVer.Repository\CatSimpleVer.Repository.csproj" />
+  </ItemGroup>
+
+</Project>
