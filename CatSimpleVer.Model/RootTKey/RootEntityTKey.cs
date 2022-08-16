@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using SqlSugar;
 
 
-namespace CatSimpleVer.Model.RootTKey
+namespace CatSimpleVer.Model
 {
     public class RootEntityTKey<TKey> where TKey : IEquatable<TKey>
     {
