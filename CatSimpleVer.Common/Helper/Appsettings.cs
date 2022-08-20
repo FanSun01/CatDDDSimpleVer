@@ -40,7 +40,7 @@ namespace CatSimpleVer.Common.Helper
             return "";
         }
 
-        public static List<T> app<T>(params T[] sections)
+        public static List<T> app<T>(params string[] sections)
         {
             var list = new List<T>();
             //没绑定上就返回空list实例，不用catch
