@@ -7,7 +7,8 @@ using log4net;
 using Newtonsoft.Json;
 using System.IO;
 using System.Threading;
-
+using CatSimpleVer.Common.DB;
+using CatSimpleVer.Common.Helper;
 
 namespace CatSimpleVer.Common.LogHelper
 {
@@ -20,6 +21,19 @@ namespace CatSimpleVer.Common.LogHelper
         public LogLock(string contentPath)
         {
             _contentPath = contentPath;
+        }
+
+        public static void OutSql2Log(string prefix, string[] dataParas, bool IsHeader = true, bool isWrt = false)
+        {
+
+            if (Appsettings.app(new string[] { "AppSettings", "LogToDb", "Enabled" }).ObjToBool())
+            {
+                OutSql2LogToDB(prefix, dataParas, IsHeader);
+            }
+            else
+            {
+                OutSql2LogFile(prefix, dataParas, IsHeader, isWrt);
+            }
         }
 
         public static void OutSql2LogFile(string prefix, string[] dataParas, bool isHeader = false, bool isWrt = false)
@@ -41,7 +55,10 @@ namespace CatSimpleVer.Common.LogHelper
             }
         }
 
+        public static void OutSql2LogToDB(string prefix, string[] dataParas, bool IsHeader = true)
+        {
 
+        }
 
     }
 
