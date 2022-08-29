@@ -5,12 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using SqlSugar;
 
-
 namespace CatSimpleVer.Model
 {
-    public class RootEntityTKey<TKey> where TKey : IEquatable<TKey>
+    public class ModulesRoot<TKey> : RootEntityTKey<TKey> where TKey : IEquatable<TKey>
     {
-        [SugarColumn(IsNullable = false, IsPrimaryKey = true)]
-        public TKey Id { get; set; }
+        [SugarColumn(IsNullable = false)]
+        public TKey ParentId { get; set; }
     }
 }

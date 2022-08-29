@@ -8,9 +8,9 @@ using SqlSugar;
 
 namespace CatSimpleVer.Model
 {
-    public class RootEntityTKey<TKey> where TKey : IEquatable<TKey>
+    public class RootEntity
     {
-        [SugarColumn(IsNullable = false, IsPrimaryKey = true)]
-        public TKey Id { get; set; }
+        [SugarColumn(IsPrimaryKey = true, IsNullable = false)]
+        public int Id { get; set; }
     }
 }

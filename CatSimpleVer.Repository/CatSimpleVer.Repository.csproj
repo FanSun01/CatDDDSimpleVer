@@ -3,9 +3,15 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
-
+  
   <ItemGroup>
+    <PackageReference Include="MiniProfiler.AspNetCore.Mvc" Version="4.2.1" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\CatSimpleVer.Common\CatSimpleVer.Common.csproj" />
     <ProjectReference Include="..\CatSimpleVer.IRepository\CatSimpleVer.IRepository.csproj" />
+    <ProjectReference Include="..\CatSimpleVer.Model\CatSimpleVer.Model.csproj" />
   </ItemGroup>
 
 </Project>
