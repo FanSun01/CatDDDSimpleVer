@@ -60,7 +60,22 @@ namespace CatSimpleVer.Extensions.ServiceSetup
                             OnLogExecuting = (sql, param) =>
                             {
                                 //ToDo:判断并写出sql到控制台或者Log
+                                if (Appsettings.app(new string[] { "AppSettings", "SqlAOP", "Enabled" }).ObjToBool())
+                                {
+                                    if (Appsettings.app(new string[] { "AppSettings", "SqlAOP", "OutToLogFile", "Enabled" }).ObjToBool())
+                                    {
+                                        Parallel.For(0, 1, body =>
+                                        {
+                                            MiniProfiler.Current.CustomTiming("SQL：", GetParas(param) + "【SQL语句】：" + sql);
 
+                                        });
+
+                                    }
+                                    if (Appsettings.app(new string[] { "AppSettings", "SqlAOP", "OutToConsole", "Enabled" }).ObjToBool())
+                                    {
+
+                                    }
+                                }
 
                             }
                         },
@@ -70,8 +85,7 @@ namespace CatSimpleVer.Extensions.ServiceSetup
                             //增加二级缓存
                             //ToDo: https://www.donet5.com/home/doc?masterId=1&typeId=1214
                             //cache实现接口，SqlSugarCache : ICacheService
-
-
+                            DataInfoCacheService = new SqlSugarMemoryCacheService(memCache),
 
                             //https://www.donet5.com/home/doc?masterId=1&typeId=1182
                             //实体使用自定义特性
@@ -91,6 +105,18 @@ namespace CatSimpleVer.Extensions.ServiceSetup
                 return new SqlSugarScope(configList);
             });
 
+        }
+
+
+
+        private static string GetParas(SugarParameter[] pars)
+        {
+            string key = "【SQL参数】：";
+            foreach (var param in pars)
+            {
+                key += $"{param.ParameterName}:{param.Value}\n";
+            }
+            return key;
         }
     }
 }
