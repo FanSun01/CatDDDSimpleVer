@@ -41,9 +41,36 @@ namespace CatSimpleVer.Common.LogHelper
             try
             {
                 _ReaderWriterLockSlim.EnterWriteLock();
+                var folderPath = Path.Combine(_contentPath, "Log");
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
+                string logFilePath = FileHelper.GetAvailableFileWithPrefixOrderSize(folderPath, prefix);
+                switch (prefix)
+                {
+                    case "AOPLog":
+                        ApiLogAopInfo apiLogAopInfo = JsonConvert.DeserializeObject<ApiLogAopInfo>(dataParas[0]);
+                        var dataIntercept = "" +
+                            $"【操作时间】：{apiLogAopInfo.RequestTime}\r\n" +
+                            $"【当前操作用户】：{apiLogAopInfo.OpUserName} \r\n" +
+                            $"【当前执行方法】：{apiLogAopInfo.RequestMethodName} \r\n" +
+                            $"【携带的参数有】： {apiLogAopInfo.RequestParamsName} \r\n" +
+                            $"【携带的参数JSON】： {apiLogAopInfo.RequestParamsData} \r\n" +
+                            $"【响应时间】：{apiLogAopInfo.ResponseIntervalTime}\r\n" +
+                            $"【执行完成时间】：{apiLogAopInfo.ResponseTime}\r\n" +
+                            $"【执行完成结果】：{apiLogAopInfo.ResponseJsonData}\r\n";
+                        dataParas = new string[] { dataIntercept };
+                        break;
+                    //发生异常
+                    case "AOPLogEx":
+                        ApiLogAopExInfo apiLogAopExInfo = JsonConvert.DeserializeObject<ApiLogAopExInfo>(dataParas[0]);
 
 
-
+                        break;
+                    default:
+                        break;
+                }
 
             }
             catch (Exception e)
