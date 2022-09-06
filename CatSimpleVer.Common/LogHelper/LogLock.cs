@@ -17,6 +17,8 @@ namespace CatSimpleVer.Common.LogHelper
         private static readonly ILog _log = LogManager.GetLogger(typeof(LogLock));
         static string _contentPath = string.Empty;
         static ReaderWriterLockSlim _ReaderWriterLockSlim = new ReaderWriterLockSlim();
+        static int WritedCount = 0;
+        static int FailedCount = 0;
 
         public LogLock(string contentPath)
         {
@@ -65,17 +67,41 @@ namespace CatSimpleVer.Common.LogHelper
                     //发生异常
                     case "AOPLogEx":
                         ApiLogAopExInfo apiLogAopExInfo = JsonConvert.DeserializeObject<ApiLogAopExInfo>(dataParas[0]);
-
-
+                        var dataInterceptEx = "" +
+                            $"【操作时间】：{apiLogAopExInfo.ApiLogAopInfo.RequestTime}\r\n" +
+                            $"【当前操作用户】：{ apiLogAopExInfo.ApiLogAopInfo.OpUserName} \r\n" +
+                            $"【当前执行方法】：{ apiLogAopExInfo.ApiLogAopInfo.RequestMethodName} \r\n" +
+                            $"【携带的参数有】： {apiLogAopExInfo.ApiLogAopInfo.RequestParamsName} \r\n" +
+                            $"【携带的参数JSON】： {apiLogAopExInfo.ApiLogAopInfo.RequestParamsData} \r\n" +
+                            $"【响应时间】：{apiLogAopExInfo.ApiLogAopInfo.ResponseIntervalTime}\r\n" +
+                            $"【执行完成时间】：{apiLogAopExInfo.ApiLogAopInfo.ResponseTime}\r\n" +
+                            $"【执行完成结果】：{apiLogAopExInfo.ApiLogAopInfo.ResponseJsonData}\r\n" +
+                            $"【执行完成异常信息】：方法中出现异常：{apiLogAopExInfo.ExMessage}\r\n" +
+                            $"【执行完成结果】: {apiLogAopExInfo.InnerException}\r\n";
+                        dataParas = new string[] { dataInterceptEx };
                         break;
                     default:
                         break;
                 }
-
+                string logContent = String.Join("\r\n", dataParas);
+                if (isHeader)
+                {
+                    logContent = "--------------------------------\r\n" + DateTime.Now + "|\r\n" + String.Join("\r\n", dataParas) + "\r\n";
+                }
+                if (isWrt)
+                {
+                    File.WriteAllText(logFilePath, logContent);
+                }
+                else
+                {
+                    File.AppendAllText(logFilePath, logContent);
+                }
+                WritedCount++;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+                FailedCount++;
             }
             finally
             {
