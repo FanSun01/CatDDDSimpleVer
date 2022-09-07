@@ -7,7 +7,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using CatSimpleVer.Common.Helper;
 using CatSimpleVer.Common.DB;
-
+using CatSimpleVer.Common.LogHelper;
+using CatSimpleVer.Common;
 
 
 namespace CatSimpleVer.Extensions.ServiceSetup
@@ -67,13 +68,13 @@ namespace CatSimpleVer.Extensions.ServiceSetup
                                         Parallel.For(0, 1, body =>
                                         {
                                             MiniProfiler.Current.CustomTiming("SQL：", GetParas(param) + "【SQL语句】：" + sql);
-
+                                            LogLock.OutSql2Log("SqlLog", new string[] { GetParas(param), "【SQL语句】：" + sql });
                                         });
 
                                     }
                                     if (Appsettings.app(new string[] { "AppSettings", "SqlAOP", "OutToConsole", "Enabled" }).ObjToBool())
                                     {
-
+                                        ConsoleHelper.WriteColorLine(String.Join("\r\n", new string[] { "--------", "【SQL语句】：" + GetWholeSql(param, sql) }), ConsoleColor.DarkCyan);
                                     }
                                 }
 
@@ -107,7 +108,16 @@ namespace CatSimpleVer.Extensions.ServiceSetup
 
         }
 
+        public static string GetWholeSql(SugarParameter[] paramArr, string sql)
+        {
+            foreach (var p in paramArr)
+            {
+                sql.Replace(p.ParameterName, p.Value.ObjToString());
+            }
+            return sql;
 
+
+        }
 
         private static string GetParas(SugarParameter[] pars)
         {
