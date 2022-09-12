@@ -1,4 +1,6 @@
-
+using CatSimpleVer.Extensions;
+using CatSimpleVer.Extensions.ServiceSetup;
+using Autofac;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 //2.ÅäÖÃ·şÎñ×¢Èë
+builder.Services.AddSqlsugarSetup();
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
