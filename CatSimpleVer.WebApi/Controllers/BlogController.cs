@@ -6,9 +6,8 @@ using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using CatSimpleVer.Common.Helper;
-//using CatSimpleVer.IServices;
+using CatSimpleVer.IServices;
 using CatSimpleVer.Model;
-using CatSimpleVer.Model.Models;
 using CatSimpleVer.Model.ViewModels;
 //using CatSimpleVer.SwaggerHelper;
 using Microsoft.AspNetCore.Authorization;
@@ -17,9 +16,10 @@ using StackExchange.Profiling;
 
 namespace CatSimpleVer.WebApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/blog")]
     [ApiController]
     public class BlogController : ControllerBase
     {
+        
     }
 }

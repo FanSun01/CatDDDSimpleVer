@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CatSimpleVer.Repository.BASE
+namespace CatSimpleVer.Service
 {
-    public class BaseRepository<TEntity> where TEntity : class, new()
+    public class BlogArticleService
     {
 
     }
