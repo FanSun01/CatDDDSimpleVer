@@ -4,4 +4,9 @@
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CatSimpleVer.Common\CatSimpleVer.Common.csproj" />
+    <ProjectReference Include="..\CatSimpleVer.Model\CatSimpleVer.Model.csproj" />
+  </ItemGroup>
+
 </Project>

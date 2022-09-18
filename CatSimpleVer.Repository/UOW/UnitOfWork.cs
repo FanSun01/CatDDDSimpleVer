@@ -28,6 +28,44 @@ namespace CatSimpleVer.Repository.UOW
             return _sqlSugarClient as SqlSugarScope;
         }
 
+        //开始事务
+        public void BeginTrans()
+        {
+            lock (this)
+            {
+                _transCount++;
+                GetDbClient().BeginTran();
+            }
+        }
+
+        public void CommitTrans()
+        {
+            lock (this)
+            {
+                _transCount--;
+                if (_transCount == 0)
+                {
+                    try
+                    {
+                        GetDbClient().CommitTran();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                        GetDbClient().RollbackTran();
+                    }
+                }
+            }
+        }
+
+        public void RollBackTrans()
+        {
+            lock (this)
+            {
+                _transCount--;
+                GetDbClient().RollbackTran();
+            }
+        }
 
 
 
