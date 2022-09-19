@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using SqlSugar;
 using Microsoft.Extensions.Logging;
-
+using CatSimpleVer.IRepository.UOW;
 
 namespace CatSimpleVer.Repository.UOW
 {
-    public class UnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         private readonly ISqlSugarClient _sqlSugarClient;
         private readonly ILogger<UnitOfWork> _logger;
