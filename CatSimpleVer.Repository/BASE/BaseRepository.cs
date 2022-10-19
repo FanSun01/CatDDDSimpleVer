@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SqlSugar;
 using CatSimpleVer.IRepository.UOW;
-
+using Org.BouncyCastle.Crypto.Engines;
 
 namespace CatSimpleVer.Repository.BASE
 {
@@ -34,8 +34,15 @@ namespace CatSimpleVer.Repository.BASE
 
         public async Task<TEntity> QueryById(object objectId)
         {
-            return;
+            return await _dbClient.Queryable<TEntity>().In(objectId).SingleAsync();
         }
+
+        public async Task<TEntity> QueryById(object objectId, bool useCache)
+        {
+            return await _dbClient.Queryable<TEntity>().WithCacheIF(useCache, 10).In(objectId).SingleAsync();
+        }
+
+
 
 
 
